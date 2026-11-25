@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://kadyverse.com/</loc></url>
-  <url><loc>https://kadyverse.com/?route=%2Fexplore</loc></url>
-  <url><loc>https://kadyverse.com/?route=%2Fexplore%2Fthe-mind</loc></url>
-  <url><loc>https://kadyverse.com/?route=%2Fexplore%2Fthe-heart</loc></url>
-  <url><loc>https://kadyverse.com/?route=%2Fexplore%2Fthe-world</loc></url>
-  <url><loc>https://kadyverse.com/?route=%2Fexplore%2Fthe-imagination</loc></url>
-  <url><loc>https://kadyverse.com/?route=%2Fexplore%2Fthe-journey</loc></url>
-  <url><loc>https://kadyverse.com/?route=%2Fjournal</loc></url>
-  <url><loc>https://kadyverse.com/?route=%2Fabout</loc></url>
-  <url><loc>https://kadyverse.com/?route=%2Farchive</loc></url>
-  <url><loc>https://kadyverse.com/?route=%2Fsearch</loc></url>
-  <url><loc>https://kadyverse.com/?route=%2Farticle%2Fthe-small-art-of-noticing</loc></url>
-  <url><loc>https://kadyverse.com/?route=%2Farticle%2Fa-question-i-carry</loc></url>
-  <url><loc>https://kadyverse.com/?route=%2Farticle%2Fthe-shape-of-a-memory</loc></url>
-  <url><loc>https://kadyverse.com/?route=%2Farticle%2Fnotes-from-the-in-between</loc></url>
-  <url><loc>https://kadyverse.com/?route=%2Farticle%2Fwhat-the-city-keeps</loc></url>
-  <url><loc>https://kadyverse.com/?route=%2Farticle%2Fa-place-for-imagined-things</loc></url>
-  <url><loc>https://kadyverse.com/?route=%2Farticle%2Flearning-to-begin-again</loc></url>
+  <url><loc>https://kadyverse.com/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://kadyverse.com/explore</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kadyverse.com/explore/the-mind</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://kadyverse.com/explore/the-heart</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://kadyverse.com/explore/the-world</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://kadyverse.com/explore/the-imagination</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://kadyverse.com/explore/the-journey</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://kadyverse.com/journal</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://kadyverse.com/about</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://kadyverse.com/archive</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>
