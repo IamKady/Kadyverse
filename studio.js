@@ -28,6 +28,18 @@ const formatTimestamp = value => value
   ? new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value))
   : 'Not saved yet';
 
+function writingStats(content) {
+  const words = String(content || '').trim().match(/\S+/g)?.length || 0;
+  const minutes = Math.max(1, Math.ceil(words / 220));
+  return { words, minutes };
+}
+
+function updateWritingStats(content) {
+  const stats = writingStats(content);
+  const region = main.querySelector('[data-writing-stats]');
+  if (region) region.textContent = `${stats.words} words · ${stats.minutes} min read`;
+}
+
 function showMessage(message, type = 'error') {
   const region = main.querySelector('[data-message]');
   if (!region) return;
@@ -234,7 +246,7 @@ function renderEditor() {
         <label class="studio-meta-wide">Subtitle <span class="studio-optional">(optional)</span><input name="subtitle" type="text" maxlength="200" value="${escapeHTML(entry.subtitle)}"></label>
         <label class="studio-meta-wide">Cover image URL <span class="studio-optional">(optional)</span><input name="cover_image_url" type="url" inputmode="url" value="${escapeHTML(entry.cover_image_url)}" placeholder="https://…"></label>
       </div>
-      <div class="studio-writing-label"><label for="entry-content">Your writing</label><span>Private until you choose to publish</span></div>
+      <div class="studio-writing-label"><label for="entry-content">Your writing</label><span data-writing-stats>${writingStats(entry.content).words} words · ${writingStats(entry.content).minutes} min read</span></div>
       <div class="studio-format-toolbar" role="toolbar" aria-label="Writing formats">
         <button type="button" data-format="bold" aria-label="Bold">B</button>
         <button type="button" data-format="italic" aria-label="Italic"><em>I</em></button>
@@ -295,6 +307,7 @@ function updateLocalEntry(id, field, value) {
   entry._deleted = false;
   storeLocal();
   setSaveLabel(navigator.onLine ? 'Saving…' : 'Saved on this device · offline');
+  if (field === 'content') updateWritingStats(value);
   const timestamp = main.querySelector('#studio-updated-time');
   if (timestamp) timestamp.textContent = `Last edited ${formatTimestamp(entry.updated_at)}`;
   scheduleSave(id);
@@ -641,6 +654,7 @@ main.addEventListener('change', event => {
     return;
   }
   if (!event.target.closest('#studio-entry-form') || !event.target.name) return;
+  if (event.target.tagName === 'TEXTAREA' || event.target.type === 'text' || event.target.type === 'search') return;
   updateLocalEntry(state.selectedId, event.target.name, event.target.value);
 });
 
@@ -696,7 +710,25 @@ main.addEventListener('click', async event => {
   }
 });
 
+document.addEventListener('keydown', event => {
+  if (!(event.ctrlKey || event.metaKey) || event.altKey) return;
+  if (event.key.toLowerCase() === 's') {
+    event.preventDefault();
+    const entry = selectedEntry();
+    if (!entry) return;
+    clearTimeout(scheduleSave.timers.get(entry.id));
+    setSaveLabel('Saving…');
+    saveEntry(entry.id);
+  }
+});
+
 window.addEventListener('online', syncDirtyEntries);
+
+window.addEventListener('beforeunload', event => {
+  if (!state.entries.some(entry => entry._dirty || entry._conflict)) return;
+  event.preventDefault();
+  event.returnValue = '';
+});
 
 async function start() {
   const config = window.KADYVERSE_SUPABASE;
