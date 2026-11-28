@@ -689,9 +689,33 @@ h1, h2, h3 { text-wrap: balance; }
     var(--ivory);
 }
 .studio-header {
+  display: flex;
   min-height: 68px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 max(5vw, calc((100vw - 1300px) / 2));
+  border-bottom: 1px solid rgba(41, 41, 41, .11);
   background: rgba(247, 245, 239, .94);
   backdrop-filter: blur(12px);
+}
+.studio-header .wordmark {
+  flex: 0 0 auto;
+}
+.studio-header-label {
+  color: #8a847a;
+  font-family: var(--serif);
+  font-size: 13px;
+  font-style: italic;
+}
+.studio-exit {
+  flex: 0 0 auto;
+  color: #706b62;
+  font-size: 10px;
+}
+.studio-exit span {
+  margin-left: 6px;
+  color: var(--bronze);
 }
 .studio-header-label {
   padding: 5px 11px;
@@ -704,6 +728,7 @@ h1, h2, h3 { text-wrap: balance; }
 .studio-main {
   width: min(1280px, calc(100% - 64px));
   min-height: calc(100vh - 68px);
+  margin: 0 auto;
 }
 .studio-dashboard {
   padding: 38px 0 28px;
@@ -988,20 +1013,67 @@ h1, h2, h3 { text-wrap: balance; }
   margin: 0 auto;
 }
 .studio-login {
-  width: min(430px, 100%);
+  width: min(520px, 100%);
   margin: 0 auto;
   padding-top: clamp(90px, 18vh, 170px);
 }
+.studio-login h1 {
+  margin: 24px 0 17px;
+  font-family: var(--serif);
+  font-size: clamp(43px, 5vw, 58px);
+  font-weight: 400;
+  letter-spacing: -.05em;
+  line-height: 1.08;
+}
+.studio-login h1 em {
+  color: #85735a;
+  font-weight: 400;
+}
+.studio-description {
+  margin: 0 0 28px;
+  color: #716d65;
+  font-size: 12px;
+  line-height: 1.9;
+}
 .studio-login-form {
+  display: grid;
+  gap: 10px;
   padding: 24px;
   border: 1px solid #ddd8ce;
   background: rgba(255, 255, 255, .32);
   box-shadow: 0 18px 45px rgba(56, 50, 40, .04);
 }
 .studio-login-form label {
+  display: block;
   margin-top: 5px;
+  color: #716d65;
+  font-size: 10px;
   text-transform: uppercase;
   letter-spacing: .07em;
+}
+.studio-login-form input {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 12px;
+  border: 1px solid #d5d0c6;
+  border-radius: 3px;
+  background: var(--ivory);
+  font-size: 16px;
+}
+.studio-login-form input:focus {
+  outline: 1px solid var(--bronze);
+  outline-offset: 1px;
+}
+.studio-login-form .button {
+  width: 100%;
+  margin-top: 12px;
+  border-radius: 3px;
+}
+.studio-login-note {
+  margin-top: 22px;
+  color: #908a7f;
+  font-size: 9px;
+  line-height: 1.7;
 }
 .studio-login-form input {
   border-radius: 3px;
