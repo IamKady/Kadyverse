@@ -211,15 +211,25 @@ function renderEntryChoices() {
 function renderList() {
   const entries = visibleEntries();
   return `<aside class="studio-sidebar">
-    <div class="studio-list-heading"><div><p class="eyebrow"><span class="eyebrow-line"></span>Your notebook</p><span>${entries.length} ${entries.length === 1 ? 'piece' : 'pieces'}</span></div></div>
-    <label class="sr-only" for="studio-search">Search your writing</label>
-    <input class="studio-search" id="studio-search" type="search" placeholder="Find a thought…" value="${escapeHTML(state.query)}" autocomplete="off">
-    <label class="sr-only" for="studio-filter">Filter writing</label>
-    <select class="studio-filter" id="studio-filter">
-      <option value="all" ${state.filter === 'all' ? 'selected' : ''}>All writing</option>
-      <option value="drafts" ${state.filter === 'drafts' ? 'selected' : ''}>Private drafts</option>
-      <option value="published" ${state.filter === 'published' ? 'selected' : ''}>Published</option>
-    </select>
+    <div class="studio-list-heading">
+      <div><p class="eyebrow"><span class="eyebrow-line"></span>Notebook</p><span>${entries.length} ${entries.length === 1 ? 'piece' : 'pieces'}</span></div>
+      <button class="studio-list-new" type="button" data-action="new" aria-label="Create new writing">+</button>
+    </div>
+    <div class="studio-list-controls">
+      <label class="studio-search-wrap" for="studio-search">
+        <span class="sr-only">Search your writing</span>
+        <span aria-hidden="true">⌕</span>
+        <input class="studio-search" id="studio-search" type="search" placeholder="Search…" value="${escapeHTML(state.query)}" autocomplete="off">
+      </label>
+      <label class="studio-filter-wrap" for="studio-filter">
+        <span class="sr-only">Filter writing</span>
+        <select class="studio-filter" id="studio-filter">
+          <option value="all" ${state.filter === 'all' ? 'selected' : ''}>All writing</option>
+          <option value="drafts" ${state.filter === 'drafts' ? 'selected' : ''}>Private drafts</option>
+          <option value="published" ${state.filter === 'published' ? 'selected' : ''}>Published</option>
+        </select>
+      </label>
+    </div>
     <div class="studio-entry-list">${renderEntryChoices()}</div>
   </aside>`;
 }
@@ -240,7 +250,7 @@ function renderEditor() {
       <div class="studio-meta-fields">
         <label>Dimension<select name="dimension">${dimensions.map(dimension => `<option ${dimension === entry.dimension ? 'selected' : ''}>${dimension}</option>`).join('')}</select></label>
         <label>Date<input name="entry_date" type="date" value="${escapeHTML(entry.entry_date)}"></label>
-        <label>Tags<input name="tags" type="text" placeholder="memory, change, ..." value="${escapeHTML((entry.tags || []).join(', '))}"></label>
+        <label>Tags<input name="tags" type="text" placeholder="memory, change, hope" value="${escapeHTML((entry.tags || []).join(', '))}"></label>
         <label>Slug<input name="slug" type="text" value="${escapeHTML(entry.slug)}" spellcheck="false"></label>
         <label class="studio-meta-wide">Short excerpt<input name="excerpt" type="text" maxlength="260" value="${escapeHTML(entry.excerpt)}" placeholder="A few words for the journal and search."></label>
         <label class="studio-meta-wide">Subtitle <span class="studio-optional">(optional)</span><input name="subtitle" type="text" maxlength="200" value="${escapeHTML(entry.subtitle)}"></label>
@@ -276,10 +286,19 @@ function renderEditor() {
 
 function renderStudio() {
   const hasSelection = Boolean(selectedEntry());
+  const draftCount = state.entries.filter(entry => !entry.published && !entry._deleted).length;
+  const publishedCount = state.entries.filter(entry => entry.published && !entry._deleted).length;
   main.innerHTML = `<div class="studio-dashboard">
     <header class="studio-dashboard-header">
-      <div><p class="eyebrow"><span class="eyebrow-line"></span>Your private notebook</p><h1>Make room<br><em>for a thought.</em></h1><p class="studio-account">Signed in as ${escapeHTML(state.user.email || 'Kady')}</p></div>
-      <div class="studio-dashboard-actions"><button class="button button-dark" type="button" data-action="new">New writing <span aria-hidden="true">＋</span></button><button class="studio-signout" type="button" data-action="signout">Sign out</button></div>
+      <div class="studio-dashboard-heading">
+        <p class="eyebrow"><span class="eyebrow-line"></span>Your private notebook</p>
+        <h1>Writing <em>studio</em></h1>
+        <p class="studio-account"><span>${draftCount} drafts</span><span>${publishedCount} published</span></p>
+      </div>
+      <div class="studio-dashboard-actions">
+        <button class="button button-dark" type="button" data-action="new"><span aria-hidden="true">＋</span> New writing</button>
+        <button class="studio-signout" type="button" data-action="signout" aria-label="Sign out of the studio">Sign out</button>
+      </div>
     </header>
     <div class="studio-message" data-message hidden></div>
     <div class="studio-workspace ${hasSelection ? 'has-selection' : ''}">${renderList()}${renderEditor()}</div>
